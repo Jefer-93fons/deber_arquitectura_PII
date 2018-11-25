@@ -6,7 +6,10 @@
 package ec.edu.espe.arquitectura.deber_arquitectura_software;
 
 import com.mongodb.MongoClient;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import ec.edu.espe.arquitectura.modelo.CiudadanoMongo;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -17,7 +20,7 @@ import org.mongodb.morphia.Morphia;
  */
 public class StarterPrincipal {
     public static void main (String args[]){
-        System.out.println("Ya termino");
+        
         int i=0;
         
         Morphia morphia = new Morphia();
@@ -25,17 +28,28 @@ public class StarterPrincipal {
         
         Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
         
+        //Datastore d2s = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
+        
         List<CiudadanoMongo> ciudadanos = ds.createQuery(CiudadanoMongo.class).asList();
         
         for (CiudadanoMongo u: ciudadanos){
-            //System.out.println(u);
             i++;
         }
         System.out.println("Total: "+ i);
         
+//        for (CiudadanoMongo u: ciudadanos){
+//            CiudadanoMongo ciud = new CiudadanoMongo();
+//            ciud.setCedula(u.getCedula());
+//            ciud.setNombre(u.getNombre());
+//            ciud.setApellido(u.getApellido());
+//            ciud.setFechaNacimiento(u.getFechaNacimiento());
+//            ds.save(ciud);
+//            
+//        }
         
         StarterMongo starmongo =  new StarterMongo(ciudadanos);
         starmongo.main();
+        System.out.println("Ya termino");
         
     }
 }
