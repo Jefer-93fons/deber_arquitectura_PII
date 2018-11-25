@@ -11,6 +11,8 @@ import ec.edu.espe.arquitectura.modelo.CiudadanoMongo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -51,5 +53,12 @@ public class StarterPrincipal {
         starmongo.main();
         System.out.println("Ya termino");
         
+        StarterMariadb starmariadb = new StarterMariadb();
+        try {
+            starmariadb.conectar();
+            starmariadb.leerArchivo();
+        } catch (Exception ex) {
+            Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
