@@ -5,14 +5,20 @@
  */
 package ec.edu.espe.arquitectura.deber_arquitectura_software;
 
+import ec.edu.espe.arquitectura.modelo.rgCivil;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -82,12 +88,45 @@ public class StarterMariadb {
             System.out.println("Error en la apertura del archivo " + ex.toString());
         }
     }
-
+    
+    public void ObtenerRegistros(){
+    //public List<rgCivil> ObtenerRegistros(){
+        List<rgCivil> lst = new ArrayList();
+        try {
+            PreparedStatement csl = conn.prepareStatement("SELECT CEDULA, APELLIDO, NOMBRE, FECHANACIMIENTO, CODPROVINCIA, GENERO, ESTADOCIVIL FROM REGISTROCIVIL;");
+            ResultSet result1 = csl.executeQuery();
+            while(result1.next()){
+                rgCivil rcg = new rgCivil();
+                rcg.setCedu(result1.getString("CEDULA"));
+                rcg.setApel(result1.getString("APELLIDO"));
+                rcg.setNomb(result1.getString("NOMBRE"));
+                rcg.setFecN(result1.getString("FECHANACIMIENTO"));
+                rcg.setCodP(result1.getString("CODPROVINCIA"));
+                rcg.setGene(result1.getString("GENERO"));
+                rcg.setEstC(result1.getString("ESTADOCIVIL"));
+                lst.add(rcg);
+            }
+            for(int i=0;i<lst.size();i++){
+                System.out.println(lst.get(i).getCedu());
+                System.out.println(lst.get(i).getApel());
+                System.out.println(lst.get(i).getNomb());
+                System.out.println(lst.get(i).getFecN());
+                System.out.println(lst.get(i).getCodP());
+                System.out.println(lst.get(i).getGene());
+                System.out.println(lst.get(i).getEstC());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        //return lst;
+    }
+    
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         StarterMariadb rg = new StarterMariadb();
         try {
             rg.conectar();
             rg.leerArchivo();
+            //rg.ObtenerRegistros();
         } catch (Exception e) {
             System.out.println(e.toString());
         }
