@@ -27,11 +27,7 @@ public class StarterPrincipal {
         
         Morphia morphia = new Morphia();
         morphia.mapPackage("ec.edu.espe.arquitectura.taller.mongo.modelo");
-        
         Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
-        
-        //Datastore d2s = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
-        
         List<CiudadanoMongo> ciudadanos = ds.createQuery(CiudadanoMongo.class).asList();
         
         for (CiudadanoMongo u: ciudadanos){
@@ -48,11 +44,7 @@ public class StarterPrincipal {
 //            ds.save(ciud);
 //            
 //        }
-        
-        StarterMongo starmongo =  new StarterMongo(ciudadanos);
-        starmongo.main();
-        System.out.println("Ya termino");
-        
+
         StarterMariadb starmariadb = new StarterMariadb();
         try {
             starmariadb.conectar();
@@ -60,5 +52,13 @@ public class StarterPrincipal {
         } catch (Exception ex) {
             Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        //Función para guardar en una lista los datos de Mariadb
+        
+        StarterMongo starmongo =  new StarterMongo(ciudadanos);
+        starmongo.main();
+        System.out.println("Ya termino");
+        
+        
     }
 }
