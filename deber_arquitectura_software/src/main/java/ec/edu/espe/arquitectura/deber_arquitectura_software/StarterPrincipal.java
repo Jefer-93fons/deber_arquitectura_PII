@@ -37,28 +37,46 @@ public class StarterPrincipal {
 //        }
 //        System.out.println("Total: "+ i);
         
-//        for (CiudadanoMongo u: ciudadanos){
-//            CiudadanoMongo ciud = new CiudadanoMongo();
-//            ciud.setCedula(u.getCedula());
-//            ciud.setNombre(u.getNombre());
-//            ciud.setApellido(u.getApellido());
-//            ciud.setFechaNacimiento(u.getFechaNacimiento());
-//            ds.save(ciud);
-//            
-//        }
 
         StarterMariadb starmariadb = new StarterMariadb();
+        System.out.println("Comenzo lectura en Postgres");
         try {
+            
+            //starmariadb.conectar();
+            Runnable r1 = new StarterMariadb();
+            
+            Thread t1 = new Thread(r1);
+            
+            t1.start();
+            
+            do {
+            try{
+                Thread.sleep(100);
+            }catch (InterruptedException exc){
+                 //System.out.println("Hilo principal interrumpido.");
+            }
+            
+            
+        } while (
+                t1.isAlive()
+                );
+      
             starmariadb.conectar();
-            //starmariadb.leerArchivo();
             lst = starmariadb.ObtenerRegistros();
+            
         } catch (Exception ex) {
             Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+
+            
+      
+        
+        
 //        ciudadanos = (List<CiudadanoMongo>) (CiudadanoMongo) lst;
         //Función para guardar en una lista los datos de Mariadb
         
+        System.out.println("Comenzo la escritura en MongoDb");
         Morphia morphia = new Morphia();
         morphia.mapPackage("ec.edu.espe.arquitectura.taller.mongo.modelo");
         Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
@@ -82,9 +100,9 @@ public class StarterPrincipal {
         
         StarterMongo starmongo =  new StarterMongo(ciudadanos);
         starmongo.iniciarIngreso();
-        
-        
-        List<CiudadanoMongo> ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
+//        
+//        
+//        List<CiudadanoMongo> ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
         
         
         
