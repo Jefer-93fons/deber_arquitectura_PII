@@ -24,9 +24,9 @@ import java.util.logging.Logger;
  *
  * @author jorge
  */
-public class StarterMariadb {
+public class StarterMariadb implements Runnable {
     private String rutaArchivo;
-    private String linea;
+    //private String linea;
     String[] parts;
     String cedu;
     String apel;
@@ -41,12 +41,17 @@ public class StarterMariadb {
     protected Connection conn = null;
     protected Statement stmt = null;
 
+    public StarterMariadb() {
+        
+    }
+
     public void conectar() throws Exception {
-        Class.forName("com.mysql.jdbc.Driver");
-        servidor = "jdbc:mysql://localhost:3306/deber";
-        usuarioDB = "root";
-        //passwordDB = "";
-        passwordDB = "root";
+       // Class.forName("com.mysql.jdbc.Driver");
+       // servidor = "jdbc:mysql://localhost:3306/deber";
+        servidor = "jdbc:postgresql://localhost:5432/deber";
+        usuarioDB = "espe";
+        passwordDB = "espe";
+        //passwordDB = "root";
         try{
             this.conn = DriverManager.getConnection(servidor, usuarioDB, passwordDB);
             this.stmt = conn.createStatement();
@@ -57,14 +62,26 @@ public class StarterMariadb {
         System.out.println("Conexion establecida");
     }
 
-    public void leerArchivo() throws SQLException {
+    @Override
+    public void run() {
+        int i = 0;
+        List<rgCivil> lst = new ArrayList();
+        
+        
         try {
-            //this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
-            this.rutaArchivo = "c:/tmp/registroCivil.txt";
+            conectar();
+        } catch (Exception ex) {
+            Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
+            //this.rutaArchivo = "c:/tmp/registroCivil.txt";
             FileReader fr = new FileReader(rutaArchivo);
             BufferedReader entradaArchivo = new BufferedReader(fr);
-            linea = entradaArchivo.readLine();
-            while (linea != null) {
+            String linea;
+            
+            while ((linea = entradaArchivo.readLine()) != null) {
+                rgCivil registro = new rgCivil();
                 parts = linea.split(",");
                 cedu = parts[0];
                 apel = parts[1];
@@ -73,22 +90,48 @@ public class StarterMariadb {
                 codP = parts[4];
                 gene = parts[5];
                 estC = parts[6];
-                PreparedStatement st = conn.prepareStatement("INSERT INTO registrocivil VALUES (?,?,?,?,?,?,?)");
-                st.setString(1, cedu);
-                st.setString(2, apel);
-                st.setString(3, nomb);
-                st.setString(4, fecN);
-                st.setString(5, codP);
-                st.setString(6, gene);
-                st.setString(7, estC);
+                registro.setCedu(cedu);
+                registro.setApel(apel);
+                registro.setNomb(nomb);
+                registro.setFecN(fecN);
+                registro.setCodP(codP);
+                registro.setGene(gene);
+                registro.setEstC(estC);
+                
+                lst.add(registro);
+                
+                
+//            PreparedStatement st = conn.prepareStatement("INSERT INTO registrocivil VALUES (?,?,?,?,?,?,?)");   
+//                st.setString(1, cedu);
+//                st.setString(2, apel);
+//                st.setString(3, nomb);
+//                st.setString(4, fecN);
+//                st.setString(5, codP);
+//                st.setString(6, gene);
+//                st.setString(7, estC);
+//                st.executeUpdate();
+               // Thread.sleep((long) 0.0000000000001);
+               // linea = entradaArchivo.readLine();
+            }
+            
+            for (rgCivil r : lst){
+                PreparedStatement st = conn.prepareStatement("INSERT INTO registrocivil (CEDULA,APELLIDO,NOMBRE,FECHANACIMIENTO,CODPROVINCIA,GENERO,ESTADOCIVIL) VALUES (?,?,?,?,?,?,?)");   
+                st.setString(1, r.getCedu());
+                st.setString(2, r.getApel());
+                st.setString(3, r.getNomb());
+                st.setString(4, r.getFecN());
+                st.setString(5, r.getCodP());
+                st.setString(6, r.getGene());
+                st.setString(7, r.getEstC());
                 st.executeUpdate();
-
-                linea = entradaArchivo.readLine();
+               // System.out.println(r.getNomb());
             }
             conn.close();
         } catch (IOException ex) {
             System.out.println("Error en la apertura del archivo " + ex.toString());
-        }
+        } catch (SQLException ex) {
+            Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
     
     public List<rgCivil> ObtenerRegistros(){
@@ -116,15 +159,15 @@ public class StarterMariadb {
         return lst;
     }
     
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        StarterMariadb rg = new StarterMariadb();
-        try {
-            rg.conectar();
-            rg.leerArchivo();
-            //rg.ObtenerRegistros();
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        System.out.println("Ok!");
-    }
+//    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+//        StarterMariadb rg = new StarterMariadb();
+//        try {
+//            rg.conectar();
+//            rg.leerArchivo();
+//            rg.ObtenerRegistros();
+//        } catch (Exception e) {
+//            System.out.println(e.toString());
+//        }
+//        System.out.println("Ok!");
+//    }
 }
