@@ -45,6 +45,7 @@ public class StarterMariadb {
         Class.forName("com.mysql.jdbc.Driver");
         servidor = "jdbc:mysql://localhost:3306/deber";
         usuarioDB = "root";
+        //passwordDB = "";
         passwordDB = "root";
         try{
             this.conn = DriverManager.getConnection(servidor, usuarioDB, passwordDB);
@@ -58,6 +59,7 @@ public class StarterMariadb {
 
     public void leerArchivo() throws SQLException {
         try {
+            //this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
             this.rutaArchivo = "c:/tmp/registroCivil.txt";
             FileReader fr = new FileReader(rutaArchivo);
             BufferedReader entradaArchivo = new BufferedReader(fr);
@@ -89,7 +91,7 @@ public class StarterMariadb {
         }
     }
     
-    public void ObtenerRegistros(){
+    public List<rgCivil> ObtenerRegistros(){
     //public List<rgCivil> ObtenerRegistros(){
         List<rgCivil> lst = new ArrayList();
         try {
@@ -106,19 +108,12 @@ public class StarterMariadb {
                 rcg.setEstC(result1.getString("ESTADOCIVIL"));
                 lst.add(rcg);
             }
-            for(int i=0;i<lst.size();i++){
-                System.out.println(lst.get(i).getCedu());
-                System.out.println(lst.get(i).getApel());
-                System.out.println(lst.get(i).getNomb());
-                System.out.println(lst.get(i).getFecN());
-                System.out.println(lst.get(i).getCodP());
-                System.out.println(lst.get(i).getGene());
-                System.out.println(lst.get(i).getEstC());
-            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        //return lst;
+       
+        return lst;
     }
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
