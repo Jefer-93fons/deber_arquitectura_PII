@@ -69,13 +69,14 @@ public class StarterMariadb implements Runnable {
         
         
         try {
+            this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
+            //this.rutaArchivo = "c:/registroCivil.txt";
             conectar();
         } catch (Exception ex) {
             Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
-            //this.rutaArchivo = "c:/tmp/registroCivil.txt";
+
             FileReader fr = new FileReader(rutaArchivo);
             BufferedReader entradaArchivo = new BufferedReader(fr);
             String linea;

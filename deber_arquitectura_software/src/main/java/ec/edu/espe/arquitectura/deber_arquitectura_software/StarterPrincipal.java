@@ -37,7 +37,6 @@ public class StarterPrincipal {
 //        }
 //        System.out.println("Total: "+ i);
         
-
         StarterMariadb starmariadb = new StarterMariadb();
         System.out.println("Comenzo lectura en Postgres");
         try {
@@ -66,15 +65,7 @@ public class StarterPrincipal {
             
         } catch (Exception ex) {
             Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-
-            
-      
-        
-        
-//        ciudadanos = (List<CiudadanoMongo>) (CiudadanoMongo) lst;
-        //Función para guardar en una lista los datos de Mariadb
+        }        
         
         System.out.println("Comenzo la escritura en MongoDb");
         Morphia morphia = new Morphia();
@@ -100,29 +91,11 @@ public class StarterPrincipal {
         
         StarterMongo starmongo =  new StarterMongo(ciudadanos);
         starmongo.iniciarIngreso();
-//        
-//        
-//        List<CiudadanoMongo> ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
         
-        
-        
-        //Escritura en la base Mongo
-//        for (CiudadanoMongo u: ciudadanosLecturaMongo){
-//            CiudadanoMongo ciud = new CiudadanoMongo();
-//            ciud.setCedula(u.getCedula());
-//            ciud.setApellido(u.getApellido());
-//            ciud.setNombre(u.getNombre());
-//            ciud.setFechaNacimiento(u.getFechaNacimiento());
-//            ciud.setCodprovincia(u.getCodprovincia());
-//            ciud.setGenero(u.getGenero());
-//            ciud.setEstadocivil(u.getEstadocivil());
-//            
-//            ds.save(ciud);
-//            
-//        }
+        StarterRedis starredis =  new StarterRedis(ciudadanos);
+        starredis.main();
 
-        System.out.println("Ya termino");
-//        
+        System.out.println("Proceso Terminado");      
         
     }
 }
