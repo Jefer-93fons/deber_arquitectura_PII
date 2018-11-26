@@ -23,18 +23,27 @@ public class CiudadanoMongo {
     @Id
     private ObjectId id;
     
-    @Property("cedula")
-    @Indexed(options=@IndexOptions(name="idxCodCiud"),unique = true)
+    @Property("CEDULA")
+    @Indexed(options=@IndexOptions(name="idxCodCedula"),unique = true)
     private String cedula;
     
-    @Property("nombre")
-    private String nombre;
-    
-    @Property("apellido")
+    @Property("APELLIDO")
     private String apellido;
     
-    @Property("fechaNacimiento")
+    @Property("NOMBRE")
+    private String nombre;
+    
+    @Property("FECHANACIMIENTO")
     private Date fechaNacimiento;
+    
+    @Property("CODPROVINCIA")
+    private String codprovincia;
+    
+    @Property("GENERO")
+    private String genero;
+    
+    @Property("ESTADOCIVIL")
+    private String estadocivil;
 
     public ObjectId getId() {
         return id;
@@ -52,20 +61,20 @@ public class CiudadanoMongo {
         this.cedula = cedula;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getApellido() {
         return apellido;
     }
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Date getFechaNacimiento() {
@@ -76,10 +85,36 @@ public class CiudadanoMongo {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public String getCodprovincia() {
+        return codprovincia;
+    }
+
+    public void setCodprovincia(String codprovincia) {
+        this.codprovincia = codprovincia;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getEstadocivil() {
+        return estadocivil;
+    }
+
+    public void setEstadocivil(String estadocivil) {
+        this.estadocivil = estadocivil;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.cedula);
+        hash = 79 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -95,7 +130,7 @@ public class CiudadanoMongo {
             return false;
         }
         final CiudadanoMongo other = (CiudadanoMongo) obj;
-        if (!Objects.equals(this.cedula, other.cedula)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -103,6 +138,7 @@ public class CiudadanoMongo {
 
     @Override
     public String toString() {
-        return "Ciudadano{" + "id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento + '}';
+        return "CiudadanoMongo{" + "id=" + id + ", cedula=" + cedula + ", apellido=" + apellido + ", nombre=" + nombre + ", fechaNacimiento=" + fechaNacimiento + ", codprovincia=" + codprovincia + ", genero=" + genero + ", estadocivil=" + estadocivil + '}';
     }
+    
 }
