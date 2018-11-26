@@ -60,5 +60,9 @@ public class StarterPrincipal {
         } catch (Exception ex) {
             Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        StarterRedis starredis =  new StarterRedis(ciudadanos);
+        starredis.main();
+        System.out.println("Finalizó el proceso");
     }
 }
