@@ -49,17 +49,17 @@ public class StarterPrincipal {
 //            
 //        }
         
-        StarterMongo starmongo =  new StarterMongo(ciudadanos);
-        starmongo.main();
-        System.out.println("Ya termino");
-        
         StarterMariadb starmariadb = new StarterMariadb();
         try {
             starmariadb.conectar();
             starmariadb.leerArchivo();
         } catch (Exception ex) {
             Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }        
+        
+        StarterMongo starmongo =  new StarterMongo(ciudadanos);
+        starmongo.main();
+        System.out.println("Ya termino");
         
         StarterRedis starredis =  new StarterRedis(ciudadanos);
         starredis.main();

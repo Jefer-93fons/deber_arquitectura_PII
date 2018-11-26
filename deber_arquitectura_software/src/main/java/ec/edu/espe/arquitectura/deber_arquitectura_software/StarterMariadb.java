@@ -58,7 +58,7 @@ public class StarterMariadb {
 
     public void leerArchivo() throws SQLException {
         try {
-            this.rutaArchivo = "c:/tmp/registroCivil.txt";
+            this.rutaArchivo = "c:/registroCivil.txt";
             FileReader fr = new FileReader(rutaArchivo);
             BufferedReader entradaArchivo = new BufferedReader(fr);
             linea = entradaArchivo.readLine();
