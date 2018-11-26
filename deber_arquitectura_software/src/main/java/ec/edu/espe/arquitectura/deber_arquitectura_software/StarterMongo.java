@@ -22,7 +22,7 @@ public class StarterMongo {
     }
     
     
-    public void main (){
+    public void iniciarIngreso (){
         CiudadanoMongo ciudadano = new CiudadanoMongo();
         
         Runnable r1 = new CiudadanoHilos(ciudadanos, 100000);
@@ -76,28 +76,5 @@ public class StarterMongo {
                 t9.isAlive()||
                 t10.isAlive()
                 );
-
-        
-
-
-        
-//        System.out.println("Hola Taller Mongo");
-//        System.out.println("Conectandose a Mongo");
-//        Morphia morphia = new Morphia();
-//        morphia.mapPackage("ec.edu.espe.arquitectura.deber_bases.mongo.modelo");
-//        
-//        Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
-//        
-//        System.out.println("Conexión Establecida");
-//       
-//        for(int i=0; i <10000; i++){
-//            Ciudadano ciud = new Ciudadano();
-//            ciud.setCedula("1718258393");
-//            ciud.setNombre("Jefferson");
-//            ciud.setApellido("Fonseca");
-//            ciud.setFechaNacimiento(new Date());
-//
-//            ds.save(ciud);
-//        }
     }
 }

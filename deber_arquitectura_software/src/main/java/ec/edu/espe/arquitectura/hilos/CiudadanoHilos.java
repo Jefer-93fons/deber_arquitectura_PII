@@ -40,9 +40,12 @@ public class CiudadanoHilos implements Runnable{
         for(int i=rango-100000; i <rango; i++){
             CiudadanoMongo ciud = new CiudadanoMongo();
             ciud.setCedula(ciudadanos.get(i).getCedula());
-            ciud.setNombre(ciudadanos.get(i).getNombre());
             ciud.setApellido(ciudadanos.get(i).getApellido());
+            ciud.setNombre(ciudadanos.get(i).getNombre());
             ciud.setFechaNacimiento(ciudadanos.get(i).getFechaNacimiento());
+            ciud.setCodprovincia(ciudadanos.get(i).getCodprovincia());
+            ciud.setGenero(ciudadanos.get(i).getGenero());
+            ciud.setEstadocivil(ciudadanos.get(i).getEstadocivil());
 
             ds.save(ciud);
         }
