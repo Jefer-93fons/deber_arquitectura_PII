@@ -37,15 +37,14 @@ public class StarterPrincipal {
 //        }
 //        System.out.println("Total: "+ i);
         
-        StarterMariadb starmariadb = new StarterMariadb();
+       // StarterPostgres starpostgres = new StarterPostgres();
         //Inicio de marca de tiempo
         long startTime = System.currentTimeMillis( ) ;
-        System.out.println("Comenzo lectura en PostgreSQL");
 
-        try {
-            
-//            starmariadb.conectar();
-//            Runnable r1 = new StarterMariadb();
+//        try {
+//            
+//            //starpostgres.conectar();
+//            Runnable r1 = new StarterPostgres();
 //            
 //            Thread t1 = new Thread(r1);
 //            
@@ -63,15 +62,20 @@ public class StarterPrincipal {
 //                t1.isAlive()
 //                );
       
-            starmariadb.conectar();
-            lst = starmariadb.ObtenerRegistros();
+           // starpostgres.conectar();
+           // lst = starpostgres.ObtenerRegistros();
             
-        } catch (Exception ex) {
-            Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+//        } catch (Exception ex) {
+//            Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+//        }        
+        
+        
+        System.out.println("Comenzo lectura en PostgreSQL");
+        StarterPostgresql starpostgres =  new StarterPostgresql();
+        starpostgres.iniciarIngreso();
+        lst = starpostgres.ObtenerRegistros();
         
         SimpleDateFormat formatear = new SimpleDateFormat("yy-MM-dd");
-       
         for (rgCivil u: lst){
             CiudadanoMongo ciud = new CiudadanoMongo();
             Date date = formatear.parse(u.getFecN());
@@ -96,14 +100,14 @@ public class StarterPrincipal {
         
         List<CiudadanoMongo> ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
         
-        System.out.println("Comenzo la escritura en Redis");
-        StarterRedis starredis =  new StarterRedis(ciudadanosLecturaMongo);
-        starredis.main();
+//        System.out.println("Comenzo la escritura en Redis");
+//        StarterRedis starredis =  new StarterRedis(ciudadanosLecturaMongo);
+//        starredis.main();
 
         System.out.println("Proceso Terminado"); 
-        //Fin de marca de tiempo.
+//        //Fin de marca de tiempo.
         long endTime = System.currentTimeMillis( ) ;
         System.out.println( "El tiempo de demora en la realización del deber es de: " + (( endTime - startTime )/1000)/60 + "m" + " y " + (( endTime - startTime )/1000)%60 +"s") ;
-        
+//        
     }
 }
