@@ -5,7 +5,7 @@
  */
 package ec.edu.espe.arquitectura.deber_arquitectura_software;
 
-import ec.edu.espe.arquitectura.hilos.CiudadanoHilos;
+import ec.edu.espe.arquitectura.hilos.CiudadanoHilosMongo;
 import ec.edu.espe.arquitectura.modelo.CiudadanoMongo;
 import java.util.List;
 
@@ -23,18 +23,17 @@ public class StarterMongo {
     
     
     public void iniciarIngreso (){
-        CiudadanoMongo ciudadano = new CiudadanoMongo();
         
-        Runnable r1 = new CiudadanoHilos(ciudadanos, 100000);
-        Runnable r2 = new CiudadanoHilos(ciudadanos, 200000);
-        Runnable r3 = new CiudadanoHilos(ciudadanos, 300000);
-        Runnable r4 = new CiudadanoHilos(ciudadanos, 400000);
-        Runnable r5 = new CiudadanoHilos(ciudadanos, 500000);
-        Runnable r6 = new CiudadanoHilos(ciudadanos, 600000);
-        Runnable r7 = new CiudadanoHilos(ciudadanos, 700000);
-        Runnable r8 = new CiudadanoHilos(ciudadanos, 800000);
-        Runnable r9 = new CiudadanoHilos(ciudadanos, 900000);
-        Runnable r10 = new CiudadanoHilos(ciudadanos, 1000000);
+        Runnable r1 = new CiudadanoHilosMongo(ciudadanos, 100000);
+        Runnable r2 = new CiudadanoHilosMongo(ciudadanos, 200000);
+        Runnable r3 = new CiudadanoHilosMongo(ciudadanos, 300000);
+        Runnable r4 = new CiudadanoHilosMongo(ciudadanos, 400000);
+        Runnable r5 = new CiudadanoHilosMongo(ciudadanos, 500000);
+        Runnable r6 = new CiudadanoHilosMongo(ciudadanos, 600000);
+        Runnable r7 = new CiudadanoHilosMongo(ciudadanos, 700000);
+        Runnable r8 = new CiudadanoHilosMongo(ciudadanos, 800000);
+        Runnable r9 = new CiudadanoHilosMongo(ciudadanos, 900000);
+        Runnable r10 = new CiudadanoHilosMongo(ciudadanos, 1000000);
         
         Thread t1 = new Thread(r1);
         Thread t2 = new Thread(r2);

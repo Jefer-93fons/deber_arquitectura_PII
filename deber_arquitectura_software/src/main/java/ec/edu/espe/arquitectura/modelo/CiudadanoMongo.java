@@ -24,7 +24,7 @@ public class CiudadanoMongo {
     private ObjectId id;
     
     @Property("CEDULA")
-    @Indexed(options=@IndexOptions(name="idxCodCedula"),unique = true)
+    @Indexed(options=@IndexOptions(name="CEDULA"),unique = true)
     private String cedula;
     
     @Property("APELLIDO")

@@ -16,13 +16,13 @@ import org.mongodb.morphia.Morphia;
  *
  * @author jefferson
  */
-public class CiudadanoHilos implements Runnable{
+public class CiudadanoHilosMongo implements Runnable{
     
     private CiudadanoMongo ciudadano;
     private List<CiudadanoMongo> ciudadanos;
     private int rango;
     
-    public CiudadanoHilos(List<CiudadanoMongo> ciudadanos, int rango){
+    public CiudadanoHilosMongo(List<CiudadanoMongo> ciudadanos, int rango){
         this.ciudadanos = ciudadanos;
         this.rango = rango;
     }
@@ -49,6 +49,7 @@ public class CiudadanoHilos implements Runnable{
                 ciud.setEstadocivil(ciudadanos.get(i).getEstadocivil());
 
                 ds.save(ciud);
+                ds.ensureIndexes();
             }catch(Exception e){
                 
             }
