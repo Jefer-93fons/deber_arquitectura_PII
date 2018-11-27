@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  *
  * @author jorge
  */
-public class StarterMariadb implements Runnable {
+public class StarterPostgres implements Runnable {
     private String rutaArchivo;
     //private String linea;
     String[] parts;
@@ -41,7 +41,7 @@ public class StarterMariadb implements Runnable {
     protected Connection conn = null;
     protected Statement stmt = null;
 
-    public StarterMariadb() {
+    public StarterPostgres() {
         
     }
 
@@ -73,7 +73,7 @@ public class StarterMariadb implements Runnable {
             //this.rutaArchivo = "c:/registroCivil.txt";
             conectar();
         } catch (Exception ex) {
-            Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StarterPostgres.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
 
@@ -131,7 +131,7 @@ public class StarterMariadb implements Runnable {
         } catch (IOException ex) {
             System.out.println("Error en la apertura del archivo " + ex.toString());
         } catch (SQLException ex) {
-            Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StarterPostgres.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
     
@@ -154,7 +154,7 @@ public class StarterMariadb implements Runnable {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(StarterPostgres.class.getName()).log(Level.SEVERE, null, ex);
         } 
        
         return lst;

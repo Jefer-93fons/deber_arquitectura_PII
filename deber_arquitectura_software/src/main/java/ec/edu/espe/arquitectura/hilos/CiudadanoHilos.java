@@ -29,7 +29,7 @@ public class CiudadanoHilos implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Conectandose a Mongo");
+        //System.out.println("Conectandose a Mongo");
         Morphia morphia = new Morphia();
         morphia.mapPackage("ec.edu.espe.arquitectura.deber_bases.mongo.modelo");
         
@@ -38,16 +38,21 @@ public class CiudadanoHilos implements Runnable{
         System.out.println("Conexión Establecida");
        
         for(int i=rango-100000; i <rango; i++){
-            CiudadanoMongo ciud = new CiudadanoMongo();
-            ciud.setCedula(ciudadanos.get(i).getCedula());
-            ciud.setApellido(ciudadanos.get(i).getApellido());
-            ciud.setNombre(ciudadanos.get(i).getNombre());
-            ciud.setFechaNacimiento(ciudadanos.get(i).getFechaNacimiento());
-            ciud.setCodprovincia(ciudadanos.get(i).getCodprovincia());
-            ciud.setGenero(ciudadanos.get(i).getGenero());
-            ciud.setEstadocivil(ciudadanos.get(i).getEstadocivil());
+            try{
+                CiudadanoMongo ciud = new CiudadanoMongo();
+                ciud.setCedula(ciudadanos.get(i).getCedula());
+                ciud.setApellido(ciudadanos.get(i).getApellido());
+                ciud.setNombre(ciudadanos.get(i).getNombre());
+                ciud.setFechaNacimiento(ciudadanos.get(i).getFechaNacimiento());
+                ciud.setCodprovincia(ciudadanos.get(i).getCodprovincia());
+                ciud.setGenero(ciudadanos.get(i).getGenero());
+                ciud.setEstadocivil(ciudadanos.get(i).getEstadocivil());
 
-            ds.save(ciud);
+                ds.save(ciud);
+            }catch(Exception e){
+                
+            }
+            
         }
     }
     
