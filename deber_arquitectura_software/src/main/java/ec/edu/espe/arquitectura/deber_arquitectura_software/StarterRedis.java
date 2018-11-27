@@ -27,7 +27,7 @@ public class StarterRedis{
         Jedis jedis = new Jedis("localhost", 6379);
         jedis.auth("root");
         jedis.connect();
-        System.out.println("Conexion exitosa");
+        //System.out.println("Conexion exitosa");
         System.out.println("Server ping " + jedis.ping());
 
         for (CiudadanoMongo cm : ciudadano) {
@@ -35,7 +35,7 @@ public class StarterRedis{
             String[] codigo = dato.split(", apellido");
             int aux=0;
             String[] cedula = codigo[aux].split("cedula=");
-            jedis.set("" + cedula[1],cm.getApellido()+","+cm.getNombre()+","+cm.getFechaNacimiento()+","+cm.getCodprovincia()+","+cm.getGenero()+","+cm.getEstadocivil());
+            jedis.set(cm.getCedula(),cm.getApellido()+","+cm.getNombre()+","+cm.getFechaNacimiento()+","+cm.getCodprovincia()+","+cm.getGenero()+","+cm.getEstadocivil());
             aux++;
         }     
     }
