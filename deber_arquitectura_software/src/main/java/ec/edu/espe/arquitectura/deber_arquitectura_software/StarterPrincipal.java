@@ -28,16 +28,24 @@ public class StarterPrincipal {
         int i=0;
         List<rgCivil> lst = new ArrayList();
         List<CiudadanoMongo> ciudadanos = new ArrayList();
+        List<CiudadanoMongo> ciudadanosLecturaMongo = new ArrayList();
 
         long startTime = System.currentTimeMillis( ) ;
         
-        System.out.println("Comenzo lectura en PostgreSQL");
-        StarterPostgresql starpostgres =  new StarterPostgresql();
-        starpostgres.iniciarIngreso();
-        lst = starpostgres.ObtenerRegistros();
+        
+        try{
+            System.out.println("Comenzo lectura en PostgreSQL");
+            StarterPostgresql starpostgres =  new StarterPostgresql();
+            starpostgres.iniciarIngreso();
+            lst = starpostgres.ObtenerRegistros();
+        }catch(Exception e){
+            
+        }
+        
         
         SimpleDateFormat formatear = new SimpleDateFormat("yy-MM-dd");
-        for (rgCivil u: lst){
+        try{
+            for (rgCivil u: lst){
             CiudadanoMongo ciud = new CiudadanoMongo();
             Date date = formatear.parse(u.getFecN());
             ciud.setCedula(u.getCedu());
@@ -50,20 +58,33 @@ public class StarterPrincipal {
             
             ciudadanos.add(ciud);
         }
+        }catch(Exception e){
+            System.out.println("Error Mapeo");
+        }
         
         Morphia morphia = new Morphia();
         morphia.mapPackage("ec.edu.espe.arquitectura.taller.mongo.modelo");
         Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
         
-        System.out.println("Comenzo la escritura en MongoDb");
-        StarterMongo starmongo =  new StarterMongo(ciudadanos);
-        starmongo.iniciarIngreso();
+        try{
+            System.out.println("Comenzo la escritura en MongoDb");
+            StarterMongo starmongo =  new StarterMongo(ciudadanos);
+            starmongo.iniciarIngreso();
+            ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
+            
+        }catch(Exception e){
+            System.out.println("Error Mongo");
+        }
         
-        List<CiudadanoMongo> ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
+        try{
+            System.out.println("Comenzo la escritura en Redis");
+            StarterRedis starredis =  new StarterRedis(ciudadanosLecturaMongo);
+            starredis.iniciarIngreso();
+        }catch(Exception e){
+            System.out.println("Error Redis");
+        }
         
-        System.out.println("Comenzo la escritura en Redis");
-        StarterRedis starredis =  new StarterRedis(ciudadanosLecturaMongo);
-        starredis.iniciarIngreso();
+        
 
         System.out.println("Proceso Terminado"); 
         long endTime = System.currentTimeMillis( ) ;

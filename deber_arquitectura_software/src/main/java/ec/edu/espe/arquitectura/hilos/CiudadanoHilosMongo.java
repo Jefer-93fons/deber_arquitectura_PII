@@ -49,7 +49,7 @@ public class CiudadanoHilosMongo implements Runnable{
                 ciud.setEstadocivil(ciudadanos.get(i).getEstadocivil());
 
                 ds.save(ciud);
-                ds.ensureIndexes();
+               // ds.ensureIndexes();
             }catch(Exception e){
                 
             }
