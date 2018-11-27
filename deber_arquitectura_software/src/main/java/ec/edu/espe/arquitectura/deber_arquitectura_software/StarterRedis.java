@@ -47,7 +47,7 @@ public class StarterRedis{
             //System.out.println(dato);
             //System.out.println(codigo[0]); 
             //System.out.println(codigo[1]);            
-            System.out.println(cedula[1]);  
+            //System.out.println(cedula[1]);  
             jedis.set("" + cedula[1], "apellido"+codigo[1]);
             aux++;
         }     
