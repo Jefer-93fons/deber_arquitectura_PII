@@ -38,6 +38,8 @@ public class StarterPrincipal {
 //        System.out.println("Total: "+ i);
         
         StarterMariadb starmariadb = new StarterMariadb();
+        //Inicio de marca de tiempo
+        long startTime = System.currentTimeMillis( ) ;
         System.out.println("Comenzo lectura en Postgres");
         try {
             
@@ -95,7 +97,10 @@ public class StarterPrincipal {
         StarterRedis starredis =  new StarterRedis(ciudadanos);
         starredis.main();
 
-        System.out.println("Proceso Terminado");      
+        System.out.println("Proceso Terminado"); 
+        //Fin de marca de tiempo.
+        long endTime = System.currentTimeMillis( ) ;
+        System.out.println( "El tiempo de demora en la realización del deber es de: " + (( endTime - startTime )/1000)/60 + "m" + " y " + (( endTime - startTime )/1000)%60 +"s") ;
         
     }
 }
