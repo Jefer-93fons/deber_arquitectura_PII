@@ -25,50 +25,11 @@ import org.mongodb.morphia.Morphia;
  */
 public class StarterPrincipal {
     public static void main (String args[]) throws ParseException{
-        
         int i=0;
         List<rgCivil> lst = new ArrayList();
         List<CiudadanoMongo> ciudadanos = new ArrayList();
-//        
 
-//        
-//        for (CiudadanoMongo u: ciudadanos){
-//            i++;
-//        }
-//        System.out.println("Total: "+ i);
-        
-       // StarterPostgres starpostgres = new StarterPostgres();
-        //Inicio de marca de tiempo
         long startTime = System.currentTimeMillis( ) ;
-
-//        try {
-//            
-//            //starpostgres.conectar();
-//            Runnable r1 = new StarterPostgres();
-//            
-//            Thread t1 = new Thread(r1);
-//            
-//            t1.start();
-//            
-//            do {
-//            try{
-//                Thread.sleep(100);
-//            }catch (InterruptedException exc){
-//                 System.out.println("Hilo principal interrumpido.");
-//            }
-//            
-//            
-//        } while (
-//                t1.isAlive()
-//                );
-      
-           // starpostgres.conectar();
-           // lst = starpostgres.ObtenerRegistros();
-            
-//        } catch (Exception ex) {
-//            Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-//        }        
-        
         
         System.out.println("Comenzo lectura en PostgreSQL");
         StarterPostgresql starpostgres =  new StarterPostgresql();
@@ -100,14 +61,13 @@ public class StarterPrincipal {
         
         List<CiudadanoMongo> ciudadanosLecturaMongo = ds.createQuery(CiudadanoMongo.class).asList();
         
-//        System.out.println("Comenzo la escritura en Redis");
-//        StarterRedis starredis =  new StarterRedis(ciudadanosLecturaMongo);
-//        starredis.main();
+        System.out.println("Comenzo la escritura en Redis");
+        StarterRedis starredis =  new StarterRedis(ciudadanosLecturaMongo);
+        starredis.iniciarIngreso();
 
         System.out.println("Proceso Terminado"); 
-//        //Fin de marca de tiempo.
         long endTime = System.currentTimeMillis( ) ;
         System.out.println( "El tiempo de demora en la realización del deber es de: " + (( endTime - startTime )/1000)/60 + "m" + " y " + (( endTime - startTime )/1000)%60 +"s") ;
-//        
+        
     }
 }
