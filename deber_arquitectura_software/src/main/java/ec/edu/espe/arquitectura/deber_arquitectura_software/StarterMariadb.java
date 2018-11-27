@@ -25,6 +25,7 @@ import java.util.logging.Logger;
  * @author jorge
  */
 public class StarterMariadb implements Runnable {
+
     private String rutaArchivo;
     //private String linea;
     String[] parts;
@@ -42,23 +43,25 @@ public class StarterMariadb implements Runnable {
     protected Statement stmt = null;
 
     public StarterMariadb() {
-        
+
     }
 
     public void conectar() throws Exception {
-       // Class.forName("com.mysql.jdbc.Driver");
-       // servidor = "jdbc:mysql://localhost:3306/deber";
-        servidor = "jdbc:postgresql://localhost:5432/deber";
-        usuarioDB = "espe";
-        passwordDB = "espe";
-        //passwordDB = "root";
-        try{
+        // Class.forName("com.mysql.jdbc.Driver");
+        // servidor = "jdbc:mysql://localhost:3306/deber";
+        //servidor = "jdbc:postgresql://localhost:5432/deber";
+        servidor = "jdbc:postgresql://localhost:5432/postgres";
+        //usuarioDB = "espe";
+        //passwordDB = "espe";
+        usuarioDB = "postgres";
+        passwordDB = "root";
+        try {
             this.conn = DriverManager.getConnection(servidor, usuarioDB, passwordDB);
             this.stmt = conn.createStatement();
-        }catch(Exception e){
-            System.out.println("Conexiion error:"+e.toString());
+        } catch (Exception e) {
+            System.out.println("Conexiion error:" + e.toString());
         }
-        
+
         System.out.println("Conexion establecida");
     }
 
@@ -66,10 +69,10 @@ public class StarterMariadb implements Runnable {
     public void run() {
         int i = 0;
         List<rgCivil> lst = new ArrayList();
-        
-        
+
         try {
-            this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
+            this.rutaArchivo = "d:/dato.txt";
+            //this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
             //this.rutaArchivo = "c:/registroCivil.txt";
             conectar();
         } catch (Exception ex) {
@@ -80,7 +83,7 @@ public class StarterMariadb implements Runnable {
             FileReader fr = new FileReader(rutaArchivo);
             BufferedReader entradaArchivo = new BufferedReader(fr);
             String linea;
-            
+
             while ((linea = entradaArchivo.readLine()) != null) {
                 rgCivil registro = new rgCivil();
                 parts = linea.split(",");
@@ -98,10 +101,9 @@ public class StarterMariadb implements Runnable {
                 registro.setCodP(codP);
                 registro.setGene(gene);
                 registro.setEstC(estC);
-                
+
                 lst.add(registro);
-                
-                
+
 //            PreparedStatement st = conn.prepareStatement("INSERT INTO registrocivil VALUES (?,?,?,?,?,?,?)");   
 //                st.setString(1, cedu);
 //                st.setString(2, apel);
@@ -111,37 +113,41 @@ public class StarterMariadb implements Runnable {
 //                st.setString(6, gene);
 //                st.setString(7, estC);
 //                st.executeUpdate();
-               // Thread.sleep((long) 0.0000000000001);
-               // linea = entradaArchivo.readLine();
+                // Thread.sleep((long) 0.0000000000001);
+                // linea = entradaArchivo.readLine();
             }
-            
-            for (rgCivil r : lst){
-                PreparedStatement st = conn.prepareStatement("INSERT INTO registrocivil (CEDULA,APELLIDO,NOMBRE,FECHANACIMIENTO,CODPROVINCIA,GENERO,ESTADOCIVIL) VALUES (?,?,?,?,?,?,?)");   
-                st.setString(1, r.getCedu());
-                st.setString(2, r.getApel());
-                st.setString(3, r.getNomb());
-                st.setString(4, r.getFecN());
-                st.setString(5, r.getCodP());
-                st.setString(6, r.getGene());
-                st.setString(7, r.getEstC());
-                st.executeUpdate();
-               // System.out.println(r.getNomb());
+
+            for (rgCivil r : lst) {
+                try {
+                    PreparedStatement st = conn.prepareStatement("INSERT INTO registrocivil (CEDULA,APELLIDO,NOMBRE,FECHANACIMIENTO,CODPROVINCIA,GENERO,ESTADOCIVIL) VALUES (?,?,?,?,?,?,?)");
+                    st.setString(1, r.getCedu());
+                    st.setString(2, r.getApel());
+                    st.setString(3, r.getNomb());
+                    st.setString(4, r.getFecN());
+                    st.setString(5, r.getCodP());
+                    st.setString(6, r.getGene());
+                    st.setString(7, r.getEstC());
+                    st.executeUpdate();
+                    // System.out.println(r.getNomb());
+                } catch (Exception ex) {
+                    System.out.println("cedula repetida: " + r.getCedu());
+                }
             }
             conn.close();
         } catch (IOException ex) {
             System.out.println("Error en la apertura del archivo " + ex.toString());
         } catch (SQLException ex) {
             Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
-    
-    public List<rgCivil> ObtenerRegistros(){
-    //public List<rgCivil> ObtenerRegistros(){
+
+    public List<rgCivil> ObtenerRegistros() {
+        //public List<rgCivil> ObtenerRegistros(){
         List<rgCivil> lst = new ArrayList();
         try {
             PreparedStatement csl = conn.prepareStatement("SELECT CEDULA, APELLIDO, NOMBRE, FECHANACIMIENTO, CODPROVINCIA, GENERO, ESTADOCIVIL FROM REGISTROCIVIL;");
             ResultSet result1 = csl.executeQuery();
-            while(result1.next()){
+            while (result1.next()) {
                 rgCivil rcg = new rgCivil();
                 rcg.setCedu(result1.getString("CEDULA"));
                 rcg.setApel(result1.getString("APELLIDO"));
@@ -152,14 +158,14 @@ public class StarterMariadb implements Runnable {
                 rcg.setEstC(result1.getString("ESTADOCIVIL"));
                 lst.add(rcg);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(StarterMariadb.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-       
+        }
+
         return lst;
     }
-    
+
 //    public static void main(String[] args) throws ClassNotFoundException, SQLException {
 //        StarterMariadb rg = new StarterMariadb();
 //        try {

@@ -24,57 +24,53 @@ import org.mongodb.morphia.Morphia;
  * @author jefferson
  */
 public class StarterPrincipal {
-    public static void main (String args[]) throws ParseException{
-        
-        int i=0;
+
+    public static void main(String args[]) throws ParseException {
+        int i = 0;
         List<rgCivil> lst = new ArrayList();
-        List<CiudadanoMongo> ciudadanos = new ArrayList();
-//        
+        List<CiudadanoMongo> ciudadanos = new ArrayList();        
+        List<CiudadanoMongo> ciudadanosRedis = new ArrayList();
 
 //        
 //        for (CiudadanoMongo u: ciudadanos){
 //            i++;
 //        }
 //        System.out.println("Total: "+ i);
-        
         StarterMariadb starmariadb = new StarterMariadb();
         System.out.println("Comenzo lectura en Postgres");
         try {
-            
+
             //starmariadb.conectar();
             Runnable r1 = new StarterMariadb();
-            
+
             Thread t1 = new Thread(r1);
-            
+
             t1.start();
-            
+
             do {
-            try{
-                Thread.sleep(100);
-            }catch (InterruptedException exc){
-                 //System.out.println("Hilo principal interrumpido.");
-            }
-            
-            
-        } while (
-                t1.isAlive()
-                );
-      
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException exc) {
+                    //System.out.println("Hilo principal interrumpido.");
+                }
+
+            } while (t1.isAlive());
+
             starmariadb.conectar();
             lst = starmariadb.ObtenerRegistros();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(StarterPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        
+        }
+
         System.out.println("Comenzo la escritura en MongoDb");
         Morphia morphia = new Morphia();
         morphia.mapPackage("ec.edu.espe.arquitectura.taller.mongo.modelo");
         Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
-        
+
         SimpleDateFormat formatear = new SimpleDateFormat("yy-MM-dd");
-       
-        for (rgCivil u: lst){
+
+        for (rgCivil u : lst) {
             CiudadanoMongo ciud = new CiudadanoMongo();
             Date date = formatear.parse(u.getFecN());
             ciud.setCedula(u.getCedu());
@@ -84,18 +80,17 @@ public class StarterPrincipal {
             ciud.setCodprovincia(u.getCodP());
             ciud.setGenero(u.getGene());
             ciud.setEstadocivil(u.getEstC());
-            
+
             ciudadanos.add(ciud);
         }
-        
-        
-        StarterMongo starmongo =  new StarterMongo(ciudadanos);
-        starmongo.iniciarIngreso();
-        
-        StarterRedis starredis =  new StarterRedis(ciudadanos);
-        starredis.main();
 
-        System.out.println("Proceso Terminado");      
-        
+        StarterMongo starmongo = new StarterMongo(ciudadanos);
+        starmongo.iniciarIngreso();
+
+        StarterRedis starredis = new StarterRedis(ciudadanosRedis);
+        starredis.ingresoRedis();
+
+        System.out.println("Proceso Terminado");
+
     }
 }

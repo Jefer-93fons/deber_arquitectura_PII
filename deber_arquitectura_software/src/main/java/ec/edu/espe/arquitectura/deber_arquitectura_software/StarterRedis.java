@@ -23,7 +23,7 @@ public class StarterRedis{
         this.ciudadano = ciudadano;
     }
     
-    public void main() {        
+    public void ingresoRedis() {        
         Jedis jedis = new Jedis("localhost", 6379);
         jedis.auth("root");
         jedis.connect();
@@ -33,13 +33,13 @@ public class StarterRedis{
         //jedis.set("prueba1", "prueba2");
         //String value = jedis.get("foo");
     
-        /*System.out.println("Conectandose a MongoDB ....");
+        /*System.out.println("Conectandose a MongoDB ....");*/
         final Morphia morphia = new Morphia();
         morphia.mapPackage("ec.edu.espe.earquitectura.modelo");
         final Datastore ds = morphia.createDatastore(new MongoClient(), "local_base_arquitectura");
-        List<CiudadanoMongo> ciudadano = ds.find(CiudadanoMongo.class).retrievedFields(true).asList();*/
+        ciudadano = ds.find(CiudadanoMongo.class).retrievedFields(true).asList();
         for (CiudadanoMongo cm : ciudadano) {
-            System.out.println(cm);
+            //System.out.println(cm);
             String dato = cm.toString();
             String[] codigo = dato.split(", apellido");
             int aux=0;
@@ -47,7 +47,7 @@ public class StarterRedis{
             //System.out.println(dato);
             //System.out.println(codigo[0]); 
             //System.out.println(codigo[1]);            
-            System.out.println(cedula[1]);  
+            //System.out.println(cedula[1]);  
             jedis.set("" + cedula[1], "apellido"+codigo[1]);
             aux++;
         }     
