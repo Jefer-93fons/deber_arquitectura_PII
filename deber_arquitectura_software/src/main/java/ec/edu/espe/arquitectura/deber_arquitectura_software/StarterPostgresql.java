@@ -41,7 +41,7 @@ public class StarterPostgresql {
         List<rgCivil> lst = new ArrayList();
         
         try {
-            this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/registroCivil.txt";
+            this.rutaArchivo = "/Users/jefferson/Documents/Espe_2018/data.txt";
         } catch (Exception ex) {
             Logger.getLogger(CiudadanoHilosPostgres.class.getName()).log(Level.SEVERE, null, ex);
         }

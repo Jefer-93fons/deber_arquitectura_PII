@@ -45,9 +45,9 @@ public class CiudadanoHilosPostgres implements Runnable {
     @Override
     public void run() {
         
-        servidor = "jdbc:postgresql://localhost:5432/deber";
-        usuarioDB = "espe";
-        passwordDB = "espe";
+        servidor = "jdbc:postgresql://localhost:5432/espe";
+        usuarioDB = "root";
+        passwordDB = "root";
         //passwordDB = "root";
         try{
             this.conn = DriverManager.getConnection(servidor, usuarioDB, passwordDB);
@@ -86,9 +86,9 @@ public class CiudadanoHilosPostgres implements Runnable {
     public List<rgCivil> ObtenerRegistros(){
         List<rgCivil> lst = new ArrayList();
         
-        servidor = "jdbc:postgresql://localhost:5432/deber";
-        usuarioDB = "espe";
-        passwordDB = "espe";
+        servidor = "jdbc:postgresql://localhost:5432/espe";
+        usuarioDB = "root";
+        passwordDB = "root";
         
         try{
             this.conn = DriverManager.getConnection(servidor, usuarioDB, passwordDB);
